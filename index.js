@@ -21,10 +21,11 @@ async function run() {
     const productCollection = client.db("inventory").collection("products");
     const orderCollection = client.db("inventory").collection("order");
 
-    app.get("/service", async (req, res) => {
+    app.get("/product", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
       const products = await cursor.toArray();
+      console.log(products);
       res.send(products);
     });
   } finally {
@@ -32,9 +33,9 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.get("/apple", (req, res) => {
-  res.send([{ name: "Afridi" }, { name: "saad" }]);
-});
+// app.get("/apple", (req, res) => {
+//   res.send([{ name: "Afridi" }, { name: "saad" }]);
+// });
 
 app.get("/", (req, res) => {
   res.send("hello");
