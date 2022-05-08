@@ -49,6 +49,15 @@ async function run() {
       const result = await productCollection.deleteOne(query);
       res.send(result);
     });
+    app.post("/product/:id", async (req, res) => {
+      const id = req.params.id;
+
+      const result = await productCollection.findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $inc: { quantity: 1 } }
+      );
+      res.send(result);
+    });
   } finally {
   }
 }
