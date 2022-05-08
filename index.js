@@ -37,6 +37,11 @@ async function run() {
       const product = await productCollection.findOne(query);
       res.send(product);
     });
+    app.post("/product", async (req, res) => {
+      const newService = req.body;
+      const result = await productCollection.insertOne(newService);
+      res.send(result);
+    });
   } finally {
   }
 }
