@@ -39,7 +39,14 @@ async function run() {
     });
     app.post("/product", async (req, res) => {
       const newService = req.body;
+      console.log(newService);
       const result = await productCollection.insertOne(newService);
+      res.send(result);
+    });
+    app.delete("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await productCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
