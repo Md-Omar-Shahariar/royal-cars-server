@@ -40,8 +40,8 @@ async function run() {
     app.post("/product", async (req, res) => {
       const newService = req.body;
       console.log(newService);
-      const result = await productCollection.insertOne(newService);
-      res.send(result);
+      const resul = await productCollection.insertOne(newService);
+      res.send(resul);
     });
     app.delete("/product/:id", async (req, res) => {
       const id = req.params.id;
