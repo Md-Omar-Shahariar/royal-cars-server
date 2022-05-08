@@ -51,10 +51,11 @@ async function run() {
     });
     app.put("/product/:id", (req, res) => {
       const id = req.params.id;
+      const value = Number(req.body.val);
 
       const result = productCollection.updateOne(
         { _id: ObjectId(id) },
-        { $inc: { quantity: -1 } }
+        { $inc: { quantity: value } }
       );
       res.send(result);
     });
