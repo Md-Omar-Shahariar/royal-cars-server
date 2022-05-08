@@ -49,15 +49,15 @@ async function run() {
       const result = await productCollection.deleteOne(query);
       res.send(result);
     });
-    // app.post("/product/:id", (req, res) => {
-    //   const id = req.params.id;
+    app.put("/product/:id", (req, res) => {
+      const id = req.params.id;
 
-    //   const result = productCollection.findOneAndUpdate(
-    //     { _id: ObjectId(id) },
-    //     { $inc: { quantity: 1 } }
-    //   );
-    //   res.send(result);
-    // });
+      const result = productCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $inc: { quantity: -1 } }
+      );
+      res.send(result);
+    });
   } finally {
   }
 }
