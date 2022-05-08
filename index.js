@@ -52,11 +52,11 @@ async function run() {
     app.post("/product/:id", async (req, res) => {
       const id = req.params.id;
 
-      const res = await productCollection.findOneAndUpdate(
+      const resu = await productCollection.findOneAndUpdate(
         { _id: ObjectId(id) },
         { $inc: { quantity: -1 } }
       );
-      res.send(res);
+      res.send(resu);
     });
   } finally {
   }
