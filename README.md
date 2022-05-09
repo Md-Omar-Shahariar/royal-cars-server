@@ -9,6 +9,9 @@
 ## Git LINK OF SERVER
 [SERVER LINK](https://github.com/ProgrammingHeroWC4/warehouse-management-server-side-Md-Omar-Shahariar)
 
+## STACKOVERFLOW LINK
+[STACKOVERFLOW LINK](https://stackoverflow.com/questions/72175011/how-to-get-value-form-input-field-after-typing-a-specific-length-while-using-onc)
+
 
 * Description
   * Heroku to Host server
