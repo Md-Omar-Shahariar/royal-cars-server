@@ -5,8 +5,27 @@ require("dotenv").config();
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
+const jwt = require("jsonwebtoken");
+
 app.use(cors());
 app.use(express.json());
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).send({ message: "Forbidden" });
+    }
+    console.log("decoded", decoded);
+    req.decoded = decoded;
+    next();
+  });
+
+  console.log("inside verify", authHeader);
+}
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@inventory.axhes.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
@@ -21,6 +40,15 @@ async function run() {
     const productCollection = client.db("inventory").collection("products");
     const orderCollection = client.db("inventory").collection("order");
 
+    //token
+    app.post("/login", async (req, res) => {
+      const user = req.body;
+      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1d",
+      });
+      res.send({ accessToken });
+    });
+
     app.get("/product", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
@@ -28,6 +56,14 @@ async function run() {
       console.log(products);
       res.send(products);
     });
+    app.get("/myItem", verifyJWT, async (req, res) => {
+      const email = req.query.email;
+      const query = { gmail: email };
+      const cursor = productCollection.find(query);
+      const products = await cursor.toArray();
+      res.send(products);
+    });
+
     app.get("/product/:id", async (req, res) => {
       const id = req.params.id;
 
